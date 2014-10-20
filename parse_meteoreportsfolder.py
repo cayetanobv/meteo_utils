@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 
-Parse meteorological reports folder
+A script to parse meteorological reports folder (METAR,
+TAF, SIGMET, etc.)
 
 Author: Cayetano Benavent, 2014
 
@@ -22,6 +23,7 @@ MA 02110-1301, USA.
 
 """
 
+import sys
 import os
 import re
 
@@ -39,13 +41,13 @@ def regexMeteoFinder(files):
         if regex_matches:
         #if len(regex_matches) > 1:
             n += 1
-            print '-- File: %s' % (fl)
-            print '\tMatches: %s' % (len(regex_matches))
+            print '\t-- File: %s' % (fl)
+            print '\t\tMatches: %s' % (len(regex_matches))
     
         wmoheader = fl.split('_')[-1]
         wmoheader_list.append(wmoheader)
     
-    print 'Total matches (regex "%s"): %i\n' % (regex, n)
+    print '\tTotal matches (regex "%s"): %i\n' % (regex, n)
     
     return wmoheader_list
 
@@ -56,15 +58,30 @@ def findDuplicateHeaders(files, wmoheader_list):
         ct = wmoheader_list.count(wmoheader)
         if ct > 1:
             m += 1
-            print '-- Find duplicate WMO Header: %s' % (fl) 
-    print 'Total matches (duplicate WMO headers): %i\n' % (m)
+            print '\t-- Find duplicate WMO Header: %s' % (fl) 
+    
+    print '\tTotal matches (duplicate WMO headers): %i\n' % (m)
 
 
 if __name__ == '__main__':
-    folder = '/home/cayetano/icomData/data/WAFSData/MESSAGES'
+    
+    if len(sys.argv) < 2:
+        print '\n --Must provide an argument: Folder path"\n'
+        exit()
+    elif len(sys.argv) > 2:
+        print '\n --Too many arguments\n'
+        exit()
+
+    folder = sys.argv[1]
+
+    if not os.path.exists(folder):
+        print '\n --Argument error: invalid or missing path.\n'
+        exit()
     
     for subdir, dirs, files in os.walk(folder):
         # Walking through folders
+        print '\n- Folder: %s' % (subdir)
+        
         try:
             wmoheader_list = regexMeteoFinder(files)
         
