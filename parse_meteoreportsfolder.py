@@ -32,10 +32,10 @@ def regexMeteoFinder(files):
     for fl in files:
         filepath = '%s/%s' % (subdir, fl)
         f = open(filepath, 'r')
-        sigmet_str = f.read()
+        msg_str = f.read()
         f.close()
         regex = 'CNL'
-        regex_matches = re.findall(regex, sigmet_str)
+        regex_matches = re.findall(regex, msg_str)
         if regex_matches:
         #if len(regex_matches) > 1:
             n += 1
