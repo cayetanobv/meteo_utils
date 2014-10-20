@@ -61,12 +61,12 @@ def findDuplicateHeaders(files, wmoheader_list):
 
 
 if __name__ == '__main__':
-    folder = '/meteofolder'
+    folder = '/home/cayetano/icomData/data/WAFSData/MESSAGES'
     
     for subdir, dirs, files in os.walk(folder):
         # Walking through folders
         try:
-            wmoheader_list = regexFinder(files)
+            wmoheader_list = regexMeteoFinder(files)
         
             findDuplicateHeaders(files, wmoheader_list)
             
