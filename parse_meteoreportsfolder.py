@@ -2,7 +2,7 @@
 """
 
 A script to parse meteorological reports folder (METAR,
-TAF, SIGMET, etc.)
+TAF, SIGMET, etc.) and find patterns
 
 Author: Cayetano Benavent, 2014
 
@@ -28,7 +28,7 @@ import os
 import re
 
           
-def regexMeteoFinder(files):
+def regexMeteoFinder(files, pattern):
     wmoheader_list = []
     n = 0
     for fl in files:
@@ -36,7 +36,7 @@ def regexMeteoFinder(files):
         f = open(filepath, 'r')
         msg_str = f.read()
         f.close()
-        regex = 'CNL'
+        regex = pattern
         regex_matches = re.findall(regex, msg_str)
         if regex_matches:
         #if len(regex_matches) > 1:
@@ -65,14 +65,19 @@ def findDuplicateHeaders(files, wmoheader_list):
 
 if __name__ == '__main__':
     
-    if len(sys.argv) < 2:
-        print '\n --Must provide an argument: Folder path"\n'
+    if len(sys.argv) < 3:
+        print '''
+        \n --Must provide two arguments: 1) Folder path and 2) Pattern to find.\n 
+            python parse_meteoreportsfolder.py [folderpath] [pattern]\n
+            Use simple quotes for complex expressions.
+        '''
         exit()
-    elif len(sys.argv) > 2:
+    elif len(sys.argv) > 3:
         print '\n --Too many arguments\n'
         exit()
 
     folder = sys.argv[1]
+    pattern = sys.argv[2]
 
     if not os.path.exists(folder):
         print '\n --Argument error: invalid or missing path.\n'
@@ -83,9 +88,8 @@ if __name__ == '__main__':
         print '\n- Folder: %s' % (subdir)
         
         try:
-            wmoheader_list = regexMeteoFinder(files)
+            wmoheader_list = regexMeteoFinder(files, pattern)
         
             findDuplicateHeaders(files, wmoheader_list)
-            
         except:
             print 'Uhmmm... something happened.'
