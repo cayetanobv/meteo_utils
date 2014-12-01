@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 
-A script to parse meteorological reports folder (METAR,
-TAF, SIGMET, etc.) and find patterns
+A script to parse meteorological reports folder and find patterns
 
 Author: Cayetano Benavent, 2014
 
