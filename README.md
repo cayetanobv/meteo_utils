@@ -7,7 +7,7 @@ Utilities:
     
     Usage:
     
-    ```
+    ```bash
     $ python parse_meteoreportsfolder.py [folderpath] [pattern]
     
     ```
@@ -18,7 +18,7 @@ Utilities:
 
     Usage: 
 
-    ```
+    ```bash
     $ python batch_regex_rename.py [src] [dst] [regex] [new_str]
         
     ```
